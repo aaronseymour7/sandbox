@@ -328,5 +328,8 @@ def Homodesmotic(input_mol, lhs_required=None, rhs_required=None, Substruct=None
         balanced_rhs = [(rhs_options[i], solution_x[i]) for i in range(len(rhs_options)) if solution_x[i] > 0]
         balanced_lhs = [(lhs_addition_options[j], solution_y[j]) for j in range(len(lhs_addition_options)) if solution_y[j] > 0]
         #print("Solver status:", LpStatus[prob.status])
-        return balanced_rhs, balanced_lhs, LpStatus[prob.status]
+        status = LpStatus[prob.status]
+        if status != 'Optimal':
+            return None
+        return balanced_rhs, balanced_lhs, status
     return Balance(x)
